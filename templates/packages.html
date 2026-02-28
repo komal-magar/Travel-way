@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Packages - Travel & Tourism Portal{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Travel Packages</h1>
+        <p>Choose the perfect package for your budget and style</p>
+    </div>
+</section>
+
+<!-- Packages Filter -->
+<section class="section pb-0">
+    <div class="container">
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+            <a href="{{ url_for('packages', type='all') }}" 
+               class="btn {{ 'btn-primary' if package_type == 'all' else 'btn-outline-primary' }}">
+                All Packages
+            </a>
+            <a href="{{ url_for('packages', type='Standard') }}" 
+               class="btn {{ 'btn-primary' if package_type == 'Standard' else 'btn-outline-primary' }}">
+                Standard
+            </a>
+            <a href="{{ url_for('packages', type='Premium') }}" 
+               class="btn {{ 'btn-primary' if package_type == 'Premium' else 'btn-outline-primary' }}">
+                Premium
+            </a>
+            <a href="{{ url_for('packages', type='Luxury') }}" 
+               class="btn {{ 'btn-primary' if package_type == 'Luxury' else 'btn-outline-primary' }}">
+                Luxury
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Packages Section -->
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            {% for package in packages %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-img-container">
+                        <img src="{{ package.image }}" 
+                             class="card-img-top" 
+                             alt="{{ package.name }}">
+                    </div>
+                    <div class="card-body package-card">
+                        <span class="package-type">{{ package.package_type }} Package</span>
+                        <h4 class="card-title">{{ package.name }}</h4>
+                        <p class="card-text text-muted">
+                            <i class="fas fa-map-marker-alt me-1"></i> {{ package.location }}
+                        </p>
+                        <p class="card-text">{{ package.description }}</p>
+                        
+                        <div class="package-price">
+                            ${{ package.price }}<span>/person</span>
+                        </div>
+                        
+                        <ul class="package-features">
+                            <li><i class="fas fa-check"></i> Accommodation</li>
+                            <li><i class="fas fa-check"></i> Airport Transfer</li>
+                            <li><i class="fas fa-check"></i> Guided Tours</li>
+                            {% if package.package_type == 'Premium' or package.package_type == 'Luxury' %}
+                            <li><i class="fas fa-check"></i> Breakfast Included</li>
+                            {% endif %}
+                            {% if package.package_type == 'Luxury' %}
+                            <li><i class="fas fa-check"></i> Private Guide</li>
+                            <li><i class="fas fa-check"></i> VIP Access</li>
+                            {% endif %}
+                        </ul>
+                        
+                        <a href="{{ url_for('book', destination_id=package.id) }}" class="btn btn-primary w-100">
+                            <i class="fas fa-shopping-cart me-2"></i>Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% if destinations|length == 0 %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No packages available</h4>
+                <p class="text-muted">Check back soon for new exciting packages!</p>
+                <a href="{{ url_for('packages', type='all') }}" class="btn btn-primary mt-2">
+                    View All Packages
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Package Comparison -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Package Comparison</h2>
+            <p class="section-subtitle">Compare features across different package types</p>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover bg-white rounded shadow-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Standard</th>
+                        <th>Premium</th>
+                        <th>Luxury</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accommodation</td>
+                        <td><i class="fas fa-check text-success"></i> 3-Star Hotel</td>
+                        <td><i class="fas fa-check text-success"></i> 4-Star Hotel</td>
+                        <td><i class="fas fa-check text-success"></i> 5-Star Hotel</td>
+                    </tr>
+                    <tr>
+                        <td>Airport Transfer</td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i> Private Transfer</td>
+                    </tr>
+                    <tr>
+                        <td>Breakfast</td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i> Full Board</td>
+                    </tr>
+                    <tr>
+                        <td>Guided Tours</td>
+                        <td><i class="fas fa-check text-success"></i> Group</td>
+                        <td><i class="fas fa-check text-success"></i> Small Group</td>
+                        <td><i class="fas fa-check text-success"></i> Private Guide</td>
+                    </tr>
+                    <tr>
+                        <td>VIP Access</td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td>24/7 Support</td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i> Dedicated Agent</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section bg-gradient text-white">
+    <div class="container text-center">
+        <h2 class="mb-3">Need Help Choosing?</h2>
+        <p class="mb-4">Our travel experts are here to help you find the perfect package</p>
+        <a href="{{ url_for('contact') }}" class="btn btn-accent btn-lg">
+            <i class="fas fa-phone me-2"></i>Talk to an Expert
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Travel & Tourism Portal{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form id="contactForm" method="POST" action="{{ url_for('contact') }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name" class="form-label">Your Name</label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="name" 
+                                               name="name" 
+                                               placeholder="Enter your name"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" 
+                                               class="form-control" 
+                                               id="email" 
+                                               name="email" 
+                                               placeholder="Enter your email"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="subject" 
+                                       name="subject" 
+                                       placeholder="What is this about?">
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" 
+                                          id="message" 
+                                          name="message" 
+                                          rows="5" 
+                                          placeholder="Write your message here..."
+                                          required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="col-lg-5">
+                <div class="contact-info">
+                    <h3 class="mb-4">Get in Touch</h3>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h5>Address</h5>
+                            <p>123 Travel Street<br>Tourism City, TC 12345</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h5>Phone</h5>
+                            <p>+1 234 567 890<br>+1 987 654 321</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h5>Email</h5>
+                            <p>info@travelway.com<br>support@travelway.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h5>Business Hours</h5>
+                            <p>Mon - Fri: 9:00 AM - 6:00 PM<br>Sat - Sun: 10:00 AM - 4:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5>Follow Us</h5>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Find Us</h2>
+            <p class="section-subtitle">Visit our office</p>
+        </div>
+        <div class="card">
+            <div class="card-body p-0">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.183992123904!2d-73.98513092404018!3d40.74881717138386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
+                        width="100%" 
+                        height="400" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Quick answers to common questions</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5><i class="fas fa-question-circle text-primary me-2"></i>How do I book a trip?</h5>
+                        <p class="text-muted mb-0">Simply browse our destinations, select your preferred location, choose your travel dates and number of passengers, and complete the booking form.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5><i class="fas fa-question-circle text-primary me-2"></i>What payment methods do you accept?</h5>
+                        <p class="text-muted mb-0">We accept all major credit cards, debit cards, and PayPal. All transactions are secure and encrypted.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5><i class="fas fa-question-circle text-primary me-2"></i>Can I cancel or modify my booking?</h5>
+                        <p class="text-muted mb-0">Yes, you can cancel or modify your booking up to 48 hours before your scheduled travel date. Contact our support team for assistance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5><i class="fas fa-question-circle text-primary me-2"></i>Do you offer travel insurance?</h5>
+                        <p class="text-muted mb-0">Yes, we offer comprehensive travel insurance options during the booking process to protect your trip.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

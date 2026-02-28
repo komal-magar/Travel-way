@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Book {{ destination.name }} - Travel & Tourism Portal{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Book Your Trip</h1>
+        <p>Complete your booking for {{ destination.name }}</p>
+    </div>
+</section>
+
+<!-- Booking Section -->
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Booking Form -->
+            <div class="col-lg-7">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4">Booking Details</h3>
+                        
+                        <form id="bookingForm" method="POST" action="{{ url_for('book', destination_id=destination.id) }}">
+                            <div class="form-group">
+                                <label for="date" class="form-label">Travel Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fas fa-calendar text-muted"></i>
+                                    </span>
+                                    <input type="date" 
+                                           class="form-control" 
+                                           id="date" 
+                                           name="date" 
+                                           required>
+                                </div>
+                                <small class="text-muted">Select your preferred travel date</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="persons" class="form-label">Number of Persons</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fas fa-users text-muted"></i>
+                                    </span>
+                                    <input type="number" 
+                                           class="form-control" 
+                                           id="persons" 
+                                           name="persons" 
+                                           min="1" 
+                                           max="20" 
+                                           value="1"
+                                           required>
+                                </div>
+                                <small class="text-muted">Maximum 20 persons per booking</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="special-requests" class="form-label">Special Requests (Optional)</label>
+                                <textarea class="form-control" 
+                                          id="special-requests" 
+                                          name="special_requests" 
+                                          rows="3" 
+                                          placeholder="Any special requirements or requests..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#" class="text-primary">Terms & Conditions</a> and <a href="#" class="text-primary">Cancellation Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-check-circle me-2"></i>Confirm Booking
+                                </button>
+                                <a href="{{ url_for('destinations') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Destinations
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Summary -->
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-img-container">
+                        <img src="{{ destination.image }}" 
+                             class="card-img-top" 
+                             alt="{{ destination.name }}"
+                             style="height: 200px;">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ destination.name }}</h4>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-1 text-primary"></i> {{ destination.location }}
+                        </p>
+                        <p class="card-text">{{ destination.description }}</p>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Package Type:</span>
+                            <span class="badge badge-{{ destination.package_type|lower }}">{{ destination.package_type }}</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Price per person:</span>
+                            <strong>${{ destination.price }}</strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Number of persons:</span>
+                            <strong id="persons-display">1</strong>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h5 mb-0">Total Price:</span>
+                            <span class="h4 mb-0 text-primary">$<span id="totalPrice">{{ destination.price }}</span></span>
+                        </div>
+                        
+                        <input type="hidden" id="pricePerPerson" value="{{ destination.price }}">
+                        
+                        <div class="bg-light p-3 rounded">
+                            <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>What's Included:</h6>
+                            <ul class="list-unstyled mb-0 small">
+                                <li><i class="fas fa-check text-success me-2"></i>Accommodation</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Airport Transfer</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Guided Tours</li>
+                                {% if destination.package_type == 'Premium' or destination.package_type == 'Luxury' %}
+                                <li><i class="fas fa-check text-success me-2"></i>Breakfast Included</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Support -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5><i class="fas fa-headset me-2 text-primary"></i>Need Help?</h5>
+                        <p class="text-muted mb-2">Contact our support team for any questions</p>
+                        <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-envelope me-1"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Update price dynamically
+    const personsInput = document.getElementById('persons');
+    const pricePerPerson = parseFloat(document.getElementById('pricePerPerson').value);
+    const totalPriceEl = document.getElementById('totalPrice');
+    const personsDisplay = document.getElementById('persons-display');
+    
+    function updatePrice() {
+        const persons = parseInt(personsInput.value) || 1;
+        const total = pricePerPerson * persons;
+        totalPriceEl.textContent = total.toFixed(2);
+        personsDisplay.textContent = persons;
+    }
+    
+    personsInput.addEventListener('input', updatePrice);
+    personsInput.addEventListener('change', updatePrice);
+</script>
+{% endblock %}

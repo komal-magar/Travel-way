@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %}Destinations - TravelWay{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200'); background-size: cover; background-position: center;">
+    <div class="container">
+        <h1>Explore Our Destinations</h1>
+        <p>Discover amazing trekking adventures and world-famous cities</p>
+    </div>
+</section>
+
+<!-- Introduction Section -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h2 class="mb-4">Your Next Adventure Awaits</h2>
+                <p class="lead text-muted">
+                    Whether you seek the thrill of climbing Himalayan peaks or the charm of world-famous cities, 
+                    we have the perfect destination for you. Choose from our carefully curated collection of 
+                    <strong>trekking adventures in Nepal</strong> and <strong>iconic cities around the globe</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category 1: Trekking in Nepal -->
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold"><i class="fas fa-mountain text-primary me-2"></i>Trekking in Nepal</h2>
+            <p class="lead text-muted">Embark on the adventure of a lifetime in the Himalayas</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for trek in treks %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card destination-card h-100 border-0 shadow-sm">
+                    <div class="card-image-wrapper">
+                        <img src="{{ trek.image }}" class="card-img-top" alt="{{ trek.name }}" loading="lazy">
+                        <div class="category-badge">
+                            <span class="badge bg-primary">Trekking</span>
+                        </div>
+                        {% if trek.difficulty %}
+                        <div class="difficulty-badge difficulty-{{ trek.difficulty|lower|replace(' ', '-') }}">
+                            {{ trek.difficulty }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">{{ trek.name }}</h5>
+                        <p class="location mb-2">
+                            <i class="fas fa-map-marker-alt me-1"></i> {{ trek.location }}
+                        </p>
+                        <p class="card-text text-muted small">{{ trek.description }}</p>
+                        
+                        <div class="destination-info mt-3">
+                            {% if trek.duration %}
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="info-label"><i class="fas fa-clock me-1"></i> Duration</span>
+                                <span class="info-value">{{ trek.duration }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="info-label"><i class="fas fa-dollar-sign me-1"></i> From</span>
+                                <span class="info-value price">${{ trek.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{{ url_for('book', destination_id=trek.id) }}" class="btn btn-primary w-100">
+                            <i class="fas fa-compass me-2"></i>Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Category 2: World Famous Cities -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold"><i class="fas fa-city text-primary me-2"></i>World Famous Cities</h2>
+            <p class="lead text-muted">Explore the world's most captivating destinations</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for city in cities %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card destination-card h-100 border-0 shadow-sm">
+                    <div class="card-image-wrapper">
+                        <img src="{{ city.image }}" class="card-img-top" alt="{{ city.name }}" loading="lazy">
+                        <div class="category-badge">
+                            <span class="badge bg-success">City</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">{{ city.name }}</h5>
+                        <p class="location mb-2">
+                            <i class="fas fa-map-marker-alt me-1"></i> {{ city.country }}
+                        </p>
+                        <p class="card-text text-muted small">{{ city.description }}</p>
+                        
+                        <div class="destination-info mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="info-label"><i class="fas fa-dollar-sign me-1"></i> From</span>
+                                <span class="info-value price">${{ city.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{{ url_for('book', destination_id=city.id) }}" class="btn btn-success w-100">
+                            <i class="fas fa-plane-departure me-2"></i>Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Travel With Us?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                    </div>
+                    <h4>Safe & Secure</h4>
+                    <p class="text-muted">Your safety is our top priority with verified guides and emergency support.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-star fa-3x text-primary"></i>
+                    </div>
+                    <h4>Quality Service</h4>
+                    <p class="text-muted">Carefully curated experiences with trusted local partners.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-headset fa-3x text-primary"></i>
+                    </div>
+                    <h4>24/7 Support</h4>
+                    <p class="text-muted">Round-the-clock assistance for all your travel needs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-3">Ready for Your Adventure?</h2>
+        <p class="mb-4">Contact us to plan your perfect trip</p>
+        <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-paper-plane me-2"></i>Get in Touch
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .destination-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .destination-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+    }
+    
+    .card-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+    
+    .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .destination-card:hover .card-image-wrapper img {
+        transform: scale(1.1);
+    }
+    
+    .category-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+    
+    .difficulty-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: white;
+    }
+    
+    .difficulty-moderate {
+        background-color: #28a745;
+    }
+    
+    .difficulty-moderate-to-challenging {
+        background-color: #fd7e14;
+    }
+    
+    .difficulty-challenging {
+        background-color: #dc3545;
+    }
+    
+    .difficulty-very-challenging {
+        background-color: #6f42c1;
+    }
+    
+    .location {
+        color: #0d6efd;
+        font-size: 0.875rem;
+    }
+    
+    .destination-info {
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    .info-label {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .info-value {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .info-value.price {
+        color: #0d6efd;
+        font-size: 1.2rem;
+    }
+    
+    .feature-box {
+        background: white;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-box:hover {
+        transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(13, 110, 253, 0.1);
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}

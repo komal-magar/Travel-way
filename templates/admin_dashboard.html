@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Travel & Tourism Portal{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <p>Manage your travel portal</p>
+    </div>
+</section>
+
+<!-- Admin Dashboard Section -->
+<section class="section">
+    <div class="container">
+        <!-- Stats -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h3 class="mb-1">{{ users|length }}</h3>
+                        <p class="text-muted mb-0">Total Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-map-marker-alt fa-3x text-success mb-3"></i>
+                        <h3 class="mb-1">{{ destinations|length }}</h3>
+                        <p class="text-muted mb-0">Destinations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-bookmark fa-3x text-warning mb-3"></i>
+                        <h3 class="mb-1">{{ bookings|length }}</h3>
+                        <p class="text-muted mb-0">Total Bookings</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-dollar-sign fa-3x text-info mb-3"></i>
+                        <h3 class="mb-1">${{ bookings|sum(attribute='total_price') }}</h3>
+                        <p class="text-muted mb-0">Total Revenue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4><i class="fas fa-plus-circle me-2 text-primary"></i>Manage Destinations</h4>
+                        <p class="text-muted">Add, edit, or remove travel destinations</p>
+                        <a href="{{ url_for('add_destination') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add New Destination
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4><i class="fas fa-envelope me-2 text-primary"></i>Messages</h4>
+                        <p class="text-muted">View contact form submissions</p>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-eye me-2"></i>View Messages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Destinations Management -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>Destinations
+                    </h3>
+                </div>
+                
+                {% if destinations %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for destination in destinations %}
+                            <tr>
+                                <td>{{ destination.id }}</td>
+                                <td><strong>{{ destination.name }}</strong></td>
+                                <td>{{ destination.location }}</td>
+                                <td>${{ destination.price }}</td>
+                                <td>
+                                    <span class="badge badge-{{ destination.package_type|lower }}">
+                                        {{ destination.package_type }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('edit_destination', destination_id=destination.id) }}" 
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ url_for('delete_destination', destination_id=destination.id) }}" 
+                                       class="btn btn-sm btn-outline-danger delete-btn"
+                                       title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No destinations yet</h5>
+                    <a href="{{ url_for('add_destination') }}" class="btn btn-primary mt-2">
+                        Add First Destination
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Bookings Management -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4">
+                    <i class="fas fa-bookmark me-2 text-primary"></i>All Bookings
+                </h3>
+                
+                {% if bookings %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Destination</th>
+                                <th>Date</th>
+                                <th>Persons</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>{{ booking.user.username }}</td>
+                                <td>{{ booking.destination.name }}</td>
+                                <td>{{ booking.date.strftime('%B %d, %Y') }}</td>
+                                <td>{{ booking.persons }}</td>
+                                <td>${{ booking.total_price }}</td>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if booking.status == 'Confirmed' else 'warning' }}">
+                                        {{ booking.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('delete_booking', booking_id=booking.id) }}" 
+                                       class="btn btn-sm btn-outline-danger delete-booking"
+                                       title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-bookmark fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No bookings yet</h5>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Logout -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
